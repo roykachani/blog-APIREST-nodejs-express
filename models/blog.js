@@ -14,6 +14,11 @@ const BlogSchema = Schema(
 			type: String,
 			require: false,
 		},
+		users: {
+			type: Schema.Types.ObjectId,
+			ref: 'user',
+			require: true,
+		},
 		category: {
 			type: String,
 			enum: ['ciencia', 'tecnologia', 'deportes', 'recetas'],

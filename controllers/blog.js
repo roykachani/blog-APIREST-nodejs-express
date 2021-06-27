@@ -3,7 +3,7 @@ const Blog = require('../models/blog');
 const getPosts = async (req, res) => {
 	try {
 		const result = await Blog.find();
-		res.status(200).send(result);
+		res.status(200).send({ result });
 	} catch (e) {
 		console.log(e);
 		res
@@ -20,7 +20,7 @@ const createPost = async (req, res) => {
 		blog.photo = req.body.photo;
 		blog.category = req.body.category;
 		await blog.save();
-		res.send(blog);
+		res.status(201).send({ message: 'el post fue creado', blog });
 	} catch (e) {
 		console.log(e);
 		res.status(500).send({ message: 'Error al guardar el blog en la DB' });
@@ -45,7 +45,7 @@ const updatePost = async (req, res) => {
 		const id = req.params.blogId;
 		const update = req.body;
 		const result = await Blog.findByIdAndUpdate(id, update);
-		res.status(200).send(result);
+		res.status(200).send({ message: 'el post fue actualizado', result });
 	} catch (e) {
 		console.log(e);
 		res.status(500);
@@ -56,7 +56,7 @@ const deletePost = async (req, res) => {
 	try {
 		const id = req.params.blogId;
 		const result = await Blog.findOneAndDelete(id);
-		res.status(200).send(result, { message: 'el producto a sido eliminado' });
+		res.status(202).send({ message: 'el post a sido eliminado', result });
 	} catch (e) {
 		console.log(e);
 		res.status(500);

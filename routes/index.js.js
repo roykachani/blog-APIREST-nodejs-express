@@ -9,14 +9,16 @@ const {
 	deletePost,
 } = require('../controllers/blog');
 
+const { securedUser } = require('../middlewares/auth');
+
 router.get('/blog', getPosts);
 
 router.get('/blog/:blogId', findPost);
 
-router.post('/blog', createPost);
+router.post('/blog', securedUser, createPost);
 
-router.put('/blog/:blogId', updatePost);
+router.put('/blog/:blogId', securedUser, updatePost);
 
-router.delete('/blog/:blogId', deletePost);
+router.delete('/blog/:blogId', securedUser, deletePost);
 
 module.exports = router;

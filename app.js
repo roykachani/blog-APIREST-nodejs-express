@@ -1,5 +1,6 @@
 const express = require('express');
 var logger = require('morgan');
+const cors = require('cors');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -13,6 +14,7 @@ const auth = require('./routes/auth');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 //rutas
 app.use('/api', blog);

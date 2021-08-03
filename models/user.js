@@ -13,9 +13,8 @@ const UserSchema = Schema(
 			Select: false,
 			require: true,
 		},
-		displayName: {
+		displayname: {
 			type: String,
-			unique: true,
 			require: true,
 		},
 		name: {

@@ -5,13 +5,14 @@ const { createToken } = require('../services/auth');
 
 const create = async (req, res) => {
 	try {
-		const { email, password } = req.body;
+		const { email, password, displayname } = req.body;
 
 		let user = await User.findOne({ email });
-		if (user) return res.status(400).json({ message: 'el email esta en unso' });
+		if (user) return res.status(400).send('el email esta en unso');
 		//bcrypt
 		user = new User(req.body);
 		user.password = hash(password);
+		user.displayname = displayname;
 		await user.save();
 		res.status(201).send('usurio creado');
 	} catch (e) {
@@ -23,7 +24,8 @@ const create = async (req, res) => {
 const auth = async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		let user = await User.findOne({ email }, { password: 1 });
+		let user = await User.findOne({ email }, { password: 1, displayname: 1 });
+
 		if (!user)
 			return res.status(400).json({ message: 'Usuario no registrado' });
 
@@ -38,7 +40,11 @@ const auth = async (req, res) => {
 			ext: moment().add(14, 'days').unix(),
 		};
 		const JWT = createToken(JWTObject);
-		res.status(202).json({ message: 'bienvenido', token: JWT });
+		res.status(202).json({
+			message: `Bienvenido ${user.displayname}`,
+			token: JWT,
+			user: user.displayname,
+		});
 	} catch (e) {
 		console.error(e);
 		res.status(401);

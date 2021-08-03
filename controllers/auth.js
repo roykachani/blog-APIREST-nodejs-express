@@ -8,7 +8,9 @@ const create = async (req, res) => {
 		const { email, password, displayname } = req.body;
 
 		let user = await User.findOne({ email });
-		if (user) return res.status(400).send('el email esta en unso');
+		let username = await User.findOne({ displayname });
+		if (user) return res.status(400).send('el email esta en uso');
+		if (username) return res.status(400).send('el Username esta en uso');
 		//bcrypt
 		user = new User(req.body);
 		user.password = hash(password);

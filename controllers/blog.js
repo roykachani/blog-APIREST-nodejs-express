@@ -14,10 +14,12 @@ const getPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
 	try {
+		console.log(req.id, req.body);
 		const blog = new Blog();
 		blog.title = req.body.title;
 		blog.description = req.body.description;
 		blog.photo = req.body.photo;
+		blog.users = req.id;
 		blog.category = req.body.category;
 		await blog.save();
 		res.status(201).send({ message: 'el post fue creado', blog });

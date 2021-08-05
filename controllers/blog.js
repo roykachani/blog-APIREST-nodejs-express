@@ -1,4 +1,6 @@
+const { findById } = require('../models/blog');
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const getPosts = async (req, res) => {
 	try {
@@ -14,14 +16,19 @@ const getPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
 	try {
-		console.log(req.id, req.body);
+		let user = await User.findById(req.id);
+
 		const blog = new Blog();
 		blog.title = req.body.title;
 		blog.description = req.body.description;
 		blog.photo = req.body.photo;
 		blog.users = req.id;
 		blog.category = req.body.category;
-		await blog.save();
+		const savedBlog = await blog.save();
+
+		user.blogs = user.blogs.concat(savedBlog); //creo ref de blog en user
+		await user.save();
+
 		res.status(201).send({ message: 'el post fue creado', blog });
 	} catch (e) {
 		console.log(e);
@@ -65,4 +72,10 @@ const deletePost = async (req, res) => {
 	}
 };
 
-module.exports = { getPosts, findPost, createPost, updatePost, deletePost };
+module.exports = {
+	getPosts,
+	findPost,
+	createPost,
+	updatePost,
+	deletePost,
+};

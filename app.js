@@ -10,6 +10,7 @@ const app = express();
 //definicion de rutas
 const blog = require('./routes/index.js');
 const auth = require('./routes/auth');
+const users = require('./routes/users');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,5 +20,6 @@ app.use(cors());
 //rutas
 app.use('/api', blog);
 app.use('/api', auth);
+app.use('/api', users);
 
 module.exports = app;

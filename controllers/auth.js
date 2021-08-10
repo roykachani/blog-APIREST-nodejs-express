@@ -1,6 +1,8 @@
-const { hash, unhash } = require('../utils/bcrypts');
-const User = require('../models/user');
 const moment = require('moment');
+const { v4: uuid } = require('uuid');
+
+const User = require('../models/user');
+const { hash, unhash } = require('../utils/bcrypts');
 const { createToken } = require('../services/auth');
 
 const create = async (req, res) => {
@@ -12,9 +14,12 @@ const create = async (req, res) => {
 		if (user) return res.status(400).send('el email esta en uso');
 		if (username) return res.status(400).send('el Username esta en uso');
 		//bcrypt
+		const idUser = uuid();
+
 		user = new User(req.body);
 		user.password = hash(password);
 		user.displayname = displayname;
+		user.idUser = idUser;
 		await user.save();
 		res.status(201).send('usurio creado');
 	} catch (e) {
@@ -42,9 +47,13 @@ const auth = async (req, res) => {
 			ext: moment().add(14, 'days').unix(),
 		};
 		const JWT = createToken(JWTObject);
+		const update = { singUpDate: Date.now() };
+		await User.findOneAndUpdate(email, update);
+
 		res.status(202).json({
 			message: `Bienvenido ${user.displayname}`,
 			token: JWT,
+			id: user._id,
 			user: user.displayname,
 		});
 	} catch (e) {

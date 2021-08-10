@@ -24,8 +24,8 @@ const findProfile = async (req, res) => {
 			updatedAt: 0,
 		});
 		const blogsData = await Blog.find({ users: userId });
-
-		res.status(302).send({ result, blogsData });
+		const data = { result, blogsData };
+		res.status(200).send(data);
 	} catch (e) {
 		console.log(e);
 		res

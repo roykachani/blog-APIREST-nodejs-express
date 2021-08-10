@@ -14,6 +14,10 @@ const BlogSchema = Schema(
 			type: String,
 			require: false,
 		},
+		idBlog: {
+			type: String,
+			require: true,
+		},
 		users: {
 			type: Schema.Types.ObjectId,
 			ref: 'user',

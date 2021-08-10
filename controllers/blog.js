@@ -1,3 +1,5 @@
+const { v4: uuid } = require('uuid');
+
 const { findById } = require('../models/blog');
 const Blog = require('../models/blog');
 const User = require('../models/user');
@@ -17,11 +19,13 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
 	try {
 		let user = await User.findById(req.id);
+		const idBlog = uuid();
 
 		const blog = new Blog();
 		blog.title = req.body.title;
 		blog.description = req.body.description;
 		blog.photo = req.body.photo;
+		blog.idBlog = idBlog;
 		blog.users = req.id;
 		blog.category = req.body.category;
 		const savedBlog = await blog.save();

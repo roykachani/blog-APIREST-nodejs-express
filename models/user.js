@@ -13,6 +13,10 @@ const UserSchema = Schema(
 			Select: false,
 			require: true,
 		},
+		idUser: {
+			type: String,
+			require: true,
+		},
 		displayname: {
 			type: String,
 			require: true,

@@ -1,6 +1,5 @@
 const { v4: uuid } = require('uuid');
 
-const { findById } = require('../models/blog');
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
@@ -25,6 +24,7 @@ const createPost = async (req, res) => {
 		blog.title = req.body.title;
 		blog.description = req.body.description;
 		blog.photo = req.body.photo;
+		blog.author = user.displayname;
 		blog.idBlog = idBlog;
 		blog.users = req.id;
 		blog.category = req.body.category;
@@ -46,7 +46,7 @@ const findPost = async (req, res) => {
 		const result = await Blog.findById(id);
 		if (!result)
 			res.status(404).send({ message: 'No se encontro el post solicitado' });
-		res.status(302).send(result);
+		res.status(200).send(result);
 	} catch (e) {
 		console.log(e);
 		res.status(500).send({ message: 'ocurio un error' });

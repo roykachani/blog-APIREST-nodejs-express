@@ -4,7 +4,7 @@
 	"description": "Proyecto de API RESTful con Node.Js y Express",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon index.js",
+		"start": "index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [
@@ -19,6 +19,7 @@
 		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
+		"forever": "^4.0.1",
 		"jsonwebtoken": "^8.5.1",
 		"moment": "^2.29.1",
 		"mongodb": "^3.6.9",
